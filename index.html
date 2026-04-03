@@ -1,18 +1,117 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="uz">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title>my-first-website</title>
-  <LINK href="styles.css" rel="stylesheet" type="text/css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Face ID Yo'qlama Platformasi</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
+  <header>
+    <h1>Talabalar Face ID Yo'qlama</h1>
+    <p>Kamera, jadval va namuna boshqaruvi bilan ishlovchi web ilova (MVP).</p>
+  </header>
 
-<img src="https://octodex.github.com/images/daftpunktocat-thomas.gif" id="octocat" alt="octocat-gif" />
+  <main class="grid">
+    <section class="card camera-card">
+      <h2>Kamera va Skaner</h2>
+      <div class="controls">
+        <label for="cameraSelect">Kamera:</label>
+        <select id="cameraSelect"></select>
+        <button id="refreshCameras">Yangilash</button>
+      </div>
 
-<!-- Change this code here by copy and pasting your template on line 15 -->
-<p>Welcome to your first GitHub Pages website!</p>
+      <div class="controls two-col">
+        <label for="scanStart">Skaner boshlanishi:</label>
+        <input id="scanStart" type="time" value="08:00" />
+        <label for="scanEnd">Skaner tugashi:</label>
+        <input id="scanEnd" type="time" value="09:30" />
+      </div>
 
+      <div class="controls">
+        <button id="startCamera">Kamerani ishga tushirish</button>
+        <button id="startScan" class="primary">Skanerlashni boshlash</button>
+        <button id="stopScan">To'xtatish</button>
+      </div>
+
+      <div class="video-wrapper" id="videoWrapper">
+        <video id="video" autoplay playsinline muted></video>
+        <canvas id="overlay"></canvas>
+      </div>
+
+      <p class="hint">Adaptive zoom: yuz uzoq bo'lsa avtomatik yaqinlashtiriladi, yaqin bo'lsa uzoqlashtiriladi.</p>
+    </section>
+
+    <section class="card">
+      <h2>Namuna boshqaruvi</h2>
+      <form id="studentForm" class="controls">
+        <input id="studentId" type="text" placeholder="Talaba ID" required />
+        <input id="studentName" type="text" placeholder="F.I.Sh" required />
+        <button type="submit">Talaba qo'shish</button>
+      </form>
+
+      <div class="controls">
+        <label for="sampleStudent">Namuna uchun talaba:</label>
+        <select id="sampleStudent"></select>
+        <button id="captureSample">Kameradan namuna olish</button>
+      </div>
+
+      <div class="controls">
+        <label for="sampleUpload">Rasim namuna yuklash:</label>
+        <input id="sampleUpload" type="file" accept="image/*" multiple />
+      </div>
+
+      <ul id="studentsList" class="list"></ul>
+    </section>
+
+    <section class="card">
+      <h2>Raspisaniya (Jadval)</h2>
+      <form id="scheduleForm" class="controls three-col">
+        <input id="courseName" type="text" placeholder="Fan nomi" required />
+        <input id="groupName" type="text" placeholder="Guruh" required />
+        <input id="roomName" type="text" placeholder="Xona" required />
+        <input id="lessonStart" type="time" required />
+        <input id="lessonEnd" type="time" required />
+        <button type="submit">Dars qo'shish</button>
+      </form>
+      <ul id="scheduleList" class="list"></ul>
+    </section>
+
+    <section class="card">
+      <h2>Yo'qlama natijalari</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Vaqt</th>
+            <th>Talaba</th>
+            <th>ID</th>
+            <th>Holat</th>
+            <th>Ishonch</th>
+          </tr>
+        </thead>
+        <tbody id="attendanceBody"></tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Unknown yuzlar</h2>
+      <p class="hint">Bazada yo'q bo'lgan yuzlar bu yerda saqlanadi (bir necha nusxa).</p>
+      <div id="unknownGallery" class="gallery"></div>
+    </section>
+  </main>
+
+  <template id="studentItemTemplate">
+    <li>
+      <div>
+        <strong class="name"></strong>
+        <span class="meta"></span>
+      </div>
+      <div class="actions">
+        <button class="delete">O'chirish</button>
+      </div>
+    </li>
+  </template>
+
+  <script src="app.js"></script>
 </body>
 </html>
