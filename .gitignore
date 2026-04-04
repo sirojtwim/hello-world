@@ -1,0 +1,11 @@
+# Generated release artifacts
+release/*.zip
+release/*.tar.gz
+release/CHECKSUMS.txt
+
+# Local extracted packages
+extracted/
+
+# Root-level archive copies
+faceid-attendance-mvp.zip
+faceid-attendance-mvp.tar.gz

@@ -1,18 +1,175 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="uz">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title>my-first-website</title>
-  <LINK href="styles.css" rel="stylesheet" type="text/css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Face ID Yo'qlama Platformasi</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
+  <header class="topbar">
+    <div>
+      <h1>Face ID Yo'qlama</h1>
+      <p>Talabalar davomatini kamera orqali avtomatik qayd qilish platformasi.</p>
+    </div>
+    <div class="topbar-actions">
+      <label class="switch-wrap">
+        <input id="testModeToggle" type="checkbox" />
+        <span>Test rejimi</span>
+      </label>
+      <button id="runDiagnostics">Diagnostika</button>
+    </div>
+  </header>
 
-<img src="https://octodex.github.com/images/daftpunktocat-thomas.gif" id="octocat" alt="octocat-gif" />
+  <nav class="tabs">
+    <button class="tab active" data-tab="scan">Skaner</button>
+    <button class="tab" data-tab="students">Talabalar & Namuna</button>
+    <button class="tab" data-tab="schedule">Raspisaniya</button>
+    <button class="tab" data-tab="reports">Hisobot</button>
+    <button class="tab" data-tab="settings">Sozlamalar</button>
+  </nav>
 
-<!-- Change this code here by copy and pasting your template on line 15 -->
-<p>Welcome to your first GitHub Pages website!</p>
+  <main>
+    <section id="scan" class="tab-panel active">
+      <div class="card">
+        <h2>Skaner boshqaruvi</h2>
+        <div class="form-grid">
+          <label>
+            Kamera tanlash
+            <select id="cameraSelect"></select>
+          </label>
+          <label>
+            Kamera turi
+            <select id="facingModeSelect">
+              <option value="environment">Orqa kamera (telefon)</option>
+              <option value="user">Old kamera (selfie)</option>
+            </select>
+          </label>
+          <label>
+            Sifat
+            <select id="resolutionSelect">
+              <option value="1280x720">HD (1280x720)</option>
+              <option value="1920x1080">Full HD (1920x1080)</option>
+              <option value="640x480">SD (640x480)</option>
+            </select>
+          </label>
+          <label>
+            Skaner boshlanishi
+            <input id="scanStart" type="time" value="08:00" />
+          </label>
+          <label>
+            Skaner tugashi
+            <input id="scanEnd" type="time" value="09:30" />
+          </label>
+        </div>
+        <div class="row-actions">
+          <button id="refreshCameras">Kameralarni yangilash</button>
+          <button id="startCamera">Kamerani yoqish</button>
+          <button id="switchCamera">Kamerani almashtirish</button>
+          <button id="startScan" class="primary">Skanerni boshlash</button>
+          <button id="stopScan">Skanerni to'xtatish</button>
+        </div>
+        <p id="scanStatus" class="hint">Holat: kutish rejimi</p>
+        <p class="hint">Agar telefon kamerasi ochilmasa HTTPS yoki localhost orqali ishga tushiring.</p>
+      </div>
 
+      <div class="card">
+        <h2>Jonli oqim</h2>
+        <div class="video-wrapper">
+          <video id="video" autoplay playsinline muted></video>
+          <canvas id="overlay"></canvas>
+        </div>
+        <p class="hint">Adaptive zoom: uzoq yuzlar uchun avtomatik yaqinlashtirish, juda yaqin bo'lsa uzoqlashtirish.</p>
+      </div>
+
+      <div class="card">
+        <h2>Diagnostika natijasi</h2>
+        <pre id="diagnosticsOutput" class="diagnostics">Diagnostika hali ishga tushirilmagan.</pre>
+      </div>
+    </section>
+
+    <section id="students" class="tab-panel">
+      <div class="card">
+        <h2>Talaba qo'shish</h2>
+        <form id="studentForm" class="form-grid compact">
+          <label>Talaba ID <input id="studentId" type="text" required /></label>
+          <label>F.I.Sh <input id="studentName" type="text" required /></label>
+          <button type="submit" class="primary">Qo'shish</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Namuna boshqaruvi</h2>
+        <div class="form-grid compact">
+          <label>
+            Talabani tanlang
+            <select id="sampleStudent"></select>
+          </label>
+          <label>
+            Rasmlar yuklash
+            <input id="sampleUpload" type="file" accept="image/*" multiple />
+          </label>
+          <button id="captureSample">Kameradan namuna olish</button>
+        </div>
+        <ul id="studentsList" class="list"></ul>
+      </div>
+    </section>
+
+    <section id="schedule" class="tab-panel">
+      <div class="card">
+        <h2>Dars jadvali</h2>
+        <form id="scheduleForm" class="form-grid">
+          <label>Fan nomi <input id="courseName" type="text" required /></label>
+          <label>Guruh <input id="groupName" type="text" required /></label>
+          <label>Xona <input id="roomName" type="text" required /></label>
+          <label>Boshlanish <input id="lessonStart" type="time" required /></label>
+          <label>Tugash <input id="lessonEnd" type="time" required /></label>
+          <button type="submit" class="primary">Jadvalga qo'shish</button>
+        </form>
+        <ul id="scheduleList" class="list"></ul>
+      </div>
+    </section>
+
+    <section id="reports" class="tab-panel">
+      <div class="card">
+        <h2>Davomat natijalari</h2>
+        <table>
+          <thead>
+            <tr><th>Vaqt</th><th>Talaba</th><th>ID</th><th>Holat</th><th>Ishonch</th></tr>
+          </thead>
+          <tbody id="attendanceBody"></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>Unknown yuzlar</h2>
+        <p class="hint">Bazada topilmagan yuzlardan 3 tagacha namuna saqlanadi.</p>
+        <div id="unknownGallery" class="gallery"></div>
+      </div>
+    </section>
+
+    <section id="settings" class="tab-panel">
+      <div class="card">
+        <h2>Texnik sozlamalar</h2>
+        <ul>
+          <li>FaceDetector mavjudligi: <span id="detectorStatus">-</span></li>
+          <li>Joriy zoom koeffitsienti: <span id="zoomStatus">1.00</span></li>
+          <li>Tanilgan threshold: <code>0.94</code></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <template id="studentItemTemplate">
+    <li>
+      <div>
+        <strong class="name"></strong>
+        <div class="meta"></div>
+      </div>
+      <button class="delete">O'chirish</button>
+    </li>
+  </template>
+
+  <script src="app.js"></script>
 </body>
 </html>

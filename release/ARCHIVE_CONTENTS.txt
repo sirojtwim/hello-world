@@ -1,0 +1,9 @@
+Release artifactlar Git'ga qo'shilmaydi (qarang: `.gitignore`).
+
+Arxivni lokal yaratish:
+- zip -r release/faceid-attendance-mvp.zip index.html styles.css app.js README.md images
+- tar -czf release/faceid-attendance-mvp.tar.gz index.html styles.css app.js README.md images
+- sha256sum release/faceid-attendance-mvp.zip release/faceid-attendance-mvp.tar.gz > release/CHECKSUMS.txt
+
+Validatsiya:
+- unzip -l release/faceid-attendance-mvp.zip
