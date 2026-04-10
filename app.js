@@ -297,7 +297,7 @@ async function scanCycle() {
 }
 
 async function detectFaces(canvas) {
-  if (!app.detector) return mockFaces(canvas);
+  if (!app.detector) return [];
 
   try {
     return await app.detector.detect(canvas);
