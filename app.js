@@ -212,14 +212,9 @@ async function detectFaces(sourceCanvas) {
     }
   }
 
-  return [{
-    boundingBox: {
-      x: sourceCanvas.width * 0.3,
-      y: sourceCanvas.height * 0.2,
-      width: sourceCanvas.width * 0.4,
-      height: sourceCanvas.height * 0.6
-    }
-  }];
+  // Unsupported browsers should not fabricate detections.
+  // Returning an empty list prevents false attendance events.
+  return [];
 }
 
 function applyAdaptiveZoom(faces, frameArea) {
